@@ -8,6 +8,7 @@ type Config struct {
 
 // CA provides configuration for passing to the certificate authority
 type CA struct {
-	CacheDir string // Path to stash certificates
-	Email    string // email to register with acme provider (let's encrypt)
+	LetsEncryptURL string
+	CacheDir       string // Path to stash certificates
+	Email          string // email to register with acme provider (let's encrypt)
 }

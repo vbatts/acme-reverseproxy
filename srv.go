@@ -7,6 +7,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/urfave/cli"
 	"github.com/vbatts/acme-reverseproxy/proxymap"
+	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 )
 
@@ -20,6 +21,10 @@ func srvCommand(c *cli.Context) error {
 	rpm, err := proxymap.ToReverseProxyMap(cfg.Mapping)
 	if err != nil {
 		return err
+	}
+	if cfg.CA.LetsEncryptURL != "" {
+		// that is a const? then why expose it?
+		acme.LetsEncryptURL = cfg.CA.LetsEncryptURL
 	}
 	rph := proxymap.NewReverseProxiesHandler(rpm)
 	logrus.Debugf("srv: whitelisting %q", strings.Join(list, ","))
