@@ -15,7 +15,7 @@ func genConfigAction(c *cli.Context) error {
 			CacheDir: "/tmp/acme-reverseproxy",
 		},
 		Mapping: map[string]string{
-			"example.com": "localhost:5000",
+			"example.com": "http://localhost:5000",
 		},
 	}
 	e := toml.NewEncoder(os.Stdout)
