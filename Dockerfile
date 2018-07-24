@@ -7,5 +7,6 @@ RUN go install -v -tags netgo github.com/vbatts/acme-reverseproxy
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
+VOLUME ["/tmp/acme-reverseproxy"]
 COPY --from=build /go/bin/acme-reverseproxy /usr/bin/
 ENTRYPOINT ["/usr/bin/acme-reverseproxy"]
