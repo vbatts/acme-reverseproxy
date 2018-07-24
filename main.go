@@ -7,7 +7,7 @@ import (
 	"sort"
 
 	"github.com/BurntSushi/toml"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"github.com/vbatts/acme-reverseproxy/config"
 )

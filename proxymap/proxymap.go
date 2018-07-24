@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // ToReverseProxyMap assembles a basic ReverseProxyMap from a map of domain name key, URL string value.
