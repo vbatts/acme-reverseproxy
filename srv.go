@@ -19,7 +19,7 @@ func srvCommand(c *cli.Context) error {
 	}
 	rpm, err := proxymap.ToReverseProxyMap(cfg.Mapping)
 	if err != nil {
-		return err
+		return cli.NewExitError(err, 2)
 	}
 	rph := proxymap.NewReverseProxiesHandler(rpm)
 	logrus.Debugf("srv: whitelisting %q", strings.Join(list, ","))
@@ -33,6 +33,5 @@ func srvCommand(c *cli.Context) error {
 	if cfg.CA.CacheDir != "" {
 		m.Cache = autocert.DirCache(cfg.CA.CacheDir)
 	}
-	logrus.Fatal(http.Serve(autocert.NewListener(list...), rph))
-	return nil
+	return cli.NewExitError(http.Serve(autocert.NewListener(list...), rph), 2)
 }

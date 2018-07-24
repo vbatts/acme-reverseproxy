@@ -21,7 +21,12 @@ func main() {
 	app.Authors = []cli.Author{
 		{Name: "Vincent Batts", Email: "vbatts@hashbangbash.com"},
 	}
-	app.Flags = []cli.Flag{}
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "debug,D",
+			Usage: "debug output",
+		},
+	}
 	app.Commands = []cli.Command{
 		{
 			Name:        "gen",
@@ -56,6 +61,9 @@ func main() {
 }
 
 func beforeAction(c *cli.Context) error {
+	if c.GlobalBool("debug") {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
 	// find and read in the toml config file for hostname -> listener mappingj
 	buf, err := ioutil.ReadFile(c.String("config"))
 	if err != nil {
