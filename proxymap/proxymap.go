@@ -57,8 +57,7 @@ func (rph reverseProxiesHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 		host = r.Host
 	}
 	logrus.Printf("request for %q %q %q", r.Host, r.URL, host)
-	v, ok := rph.Map[r.Host]
-	if ok {
+	if v, ok := rph.Map[r.Host]; ok {
 		v.ServeHTTP(w, r)
 		return
 	}
