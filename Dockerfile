@@ -1,12 +1,11 @@
-FROM golang:latest as build
-
-WORKDIR /go/src/github.com/vbatts/acme-reverseproxy/
-COPY . .
-RUN go get -d -v ./...
-RUN go install -v -tags netgo github.com/vbatts/acme-reverseproxy
+FROM golang:1.19-alpine as golang
+COPY . /go/acme-reverseproxy/
+RUN cd /go/acme-reverseproxy/ && \
+    go mod download && \
+    CGO_ENABLED=0 GOOS=linux go build
 
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
 VOLUME ["/tmp/acme-reverseproxy"]
-COPY --from=build /go/bin/acme-reverseproxy /usr/bin/
+RUN apk --no-cache add -u ca-certificates curl tzdata
+COPY --from=golang /go/acme-reverseproxy/acme-reverseproxy /usr/bin/
 ENTRYPOINT ["/usr/bin/acme-reverseproxy"]
