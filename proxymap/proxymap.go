@@ -58,6 +58,10 @@ func (rph reverseProxiesHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 	}
 	logrus.Printf("request for %q %q %q", r.Host, r.URL, host)
 	if v, ok := rph.Map[r.Host]; ok {
+		if r.TLS == nil {
+			http.Redirect(w, r, "https://"+host, http.StatusMovedPermanently)
+			return
+		}
 		v.ServeHTTP(w, r)
 		return
 	}
